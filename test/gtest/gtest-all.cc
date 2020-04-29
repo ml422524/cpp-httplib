@@ -38,6 +38,14 @@
 // when it's fused.
 #include "gtest/gtest.h"
 
+#if __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
+#elif __GNUC__
+#pragma gcc diagnostic push
+#pragma gcc diagnostic ignored "-Wsign-conversion"
+#endif
+
 // The following lines pull in the real gtest *.cc files.
 // Copyright 2005, Google Inc.
 // All rights reserved.
@@ -601,7 +609,7 @@ class GTestFlagSaver {
   bool list_tests_;
   String output_;
   bool print_time_;
-  bool pretty_;
+  // bool pretty_;
   internal::Int32 random_seed_;
   internal::Int32 repeat_;
   bool shuffle_;
@@ -7497,7 +7505,7 @@ namespace internal {
 // of them.
 const char kPathSeparator = '\\';
 const char kAlternatePathSeparator = '/';
-const char kPathSeparatorString[] = "\\";
+// const char kPathSeparatorString[] = "\\";
 const char kAlternatePathSeparatorString[] = "/";
 # if GTEST_OS_WINDOWS_MOBILE
 // Windows CE doesn't have a current directory. You should not use
@@ -7511,7 +7519,7 @@ const char kCurrentDirectoryString[] = ".\\";
 # endif  // GTEST_OS_WINDOWS_MOBILE
 #else
 const char kPathSeparator = '/';
-const char kPathSeparatorString[] = "/";
+// const char kPathSeparatorString[] = "/";
 const char kCurrentDirectoryString[] = "./";
 #endif  // GTEST_OS_WINDOWS
 
@@ -9039,7 +9047,6 @@ void HasNewFatalFailureHelper::ReportTestPartResult(
 //
 // Author: wan@google.com (Zhanyong Wan)
 
-
 namespace testing {
 namespace internal {
 
@@ -9116,3 +9123,9 @@ const char* TypedTestCasePState::VerifyRegisteredTestNames(
 
 }  // namespace internal
 }  // namespace testing
+
+#if __clang__
+#pragma clang diagnostic pop
+#elif __GNUC__
+#pragma gcc diagnostic pop
+#endif
